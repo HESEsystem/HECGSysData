@@ -1,0 +1,33 @@
+Survey ID,P2Q1,P2Q2,P2Q3,P2Q4,P2Q5,P2Q6,P2Q7,P2Q8,P2Q9,P1Q10,P1Q11,
+1,5,4,4,4,4,4,5,5,4,The provided human error modes were helpful with including specific ‘If When Then’ descriptions of rule encodings. The arrows were fairly easy to use and implement. The download diagram png and clear all buttons were convenient.,The various human error mode and schemata boxes were not size adjustable and did not conform to the amount of text input. Text could not be edited afterward initial input. The general human error scenarios were limited without an option to add custom general scenarios. ,
+2,4,4,4,4,5,5,5,5,4,"The recent ability to add multiple arrows, the ability to quickly export pngs, and the support it gives you to correctly construct human error boxes are very helpful","No ability to scale boxes or at least have it scale as you add more text, meaning that boxes quickly have writing overflow. There is also not enough room to put multiple boxes in events, as sometimes occurred in class examples. Also, no ability to delete single element ",
+3,5,3,5,5,5,5,5,5,5,"Drag and drop function and not having to write as much as error modes are already
+written
+",Arrows are a little hard to grab and text box for resulting defect and location is too small,
+4,4,3,3,4,4,4,3,4,3,I like the clear all button. The tutorial is nice.,"I found it a bit annoying you couldn’t rotate arrows. I also would have liked the to be able to delete things rather than throw them off the screen. Also, if you hit cancel it still creates a blank box for whatever error mode you clicked on.",
+5,5,4,4,4,4,4,5,4,2,I like that for some error modes the program automatically fills out the general scenario ,The fact that you can’t change the text of the bubbles after they spawn ,
+6,4,4,4,4,4,3,5,5,3,"Making diagrams like this is a pain, and using this system is a lot easier to make these specfic types of diagrams then using any other tool. The built-in element formats are really helpful and save a lot of time when making EPS diagrams","Can’t delete elements;  Can’t change element text after creating them; Element text sometimes escapes the element’s boundaries;  Missing many error modes
+",
+7,2,4,3,3,4,4,4,4,5,"Thought, it was di?icult for figuring out the way to use it, however after learning the tool, it is much faster than manually drawing. ; The tutorial section gave some glimpse of how to operate the tool and its system","No enough details in the tutorial, perhaps some hovering e?ect on the buttons or some icons would guide user for better understanding of the tool. ; There is no delete or undo feature, so in the beginning multiple tries and errors were made. ; Later figured out that to delete something we just need to hide in behind the canvas. An 
+early instruction on this would be extremely helpful.",
+8,3,3,4,4,4,3,5,5,4,Simple straightforward tool that doesn’t have a huge learning curve to it.,No option to delete graphical elements which is annoying when paired with not being able to preview what a created graphical element will look like after creation.,
+9,2,3,4,4,4,4,4,4,4,Easy to learn how to use,"Inconsistent, Doesn't always work",
+10,4,1,4,4,3,4,4,4,4,It Is easy to use and it gives clean and concise diagram in less time.,"Clear all, I didn’t like the option clear all, there should be an option of undo or go back or delete single entity instead of clear all. ",
+11,4,4,4,4,4,4,3,3,2,Graph blocks were easy to use ; Easy to drag and move graph blocks,Connections were hard to move and resize ; Limited number of connections ,
+12,4,4,3,4,4,4,4,4,3,Structured error Analysis; Cognitive mapping; Error prevention,Complexity ; Open to interpretatio ,
+13,5,3,4,4,3,5,5,1,3,"The system is incredibly easy to use, has simple features and does not clutter the screen. ","The most glaring negative aspect is that not all of the HEM’s are present, the images are exported at very low quality as well. ",
+14,3,4,4,4,4,5,5,4,4,Drag and drop components are very nice to have. ,I want to be able to delete components rather than only being able to clear the entire diagram.,
+15,4,4,4,4,3,4,4,5,3,"Much easier for creating human error modes; Since the tool is targeted for EPS, it is clearer what is needed to create an EPS diagram than if I was hand making them; Overall saved me time","Cannot delete shapes/lines; Cannot modify text;  Cannot change shapes size, making it so you cannot fit everything you want appropriate in 
+a diagram",
+16,5,5,4,4,4,4,4,4,4,How it has HEMS premade likepost completion error and stuff ,I think may be not having an option to undo things or delete specific selected item ,
+17,5,4,4,4,4,4,4,4,3,It makes it a lot quicker and easier to analyze human errors compared to doing everything by hand. The built-in structures save a lot of time by already having a description of the error. ,"Only some of the potentially relevant human error modes are included in the system. Additionally, there are some issues with the implementation of the software. This arrow structure often comes apart when I am trying to adjust the source of an arrow;  Additionally, the Strong-but-now-wrong structure displays the Rule X box as Rule A ",
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,
+,,,,,,,,,,,,

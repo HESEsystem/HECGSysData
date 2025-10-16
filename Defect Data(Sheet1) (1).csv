@@ -1,0 +1,1684 @@
+Defect ID,Date Recorded,Defect Description,Error-Prone Scenario Analysis,Human Error Modes
+1,2/12/2025,"String should be printed in reverse order. String is parsed character by character in reverse order while string[i] character is printed. Conditional is initialized as (i=string.length() - 1, i $<$ string.length(), i--)","When parsing arrays or strings as arrays, the most common way is to parse from the start of the string or array to the end with the for loop conditional (i=0, i<string.length(), i++). When reverse parsing, i must be set to the length of the string or array – 1, with the conditional that i $>$= 0, and with i decrementing by 1.",Applying “strong-but-now-wrong” rule
+2,2/13/2025,"Initially adopted a push model to run tests real time at the time the event was received. After increasing test volume, scheduling caused hotspots and oversaturation of test agent system resources resulting in test failures. Refactored to use of local queueing with N test worker services to evenly space testing and avoid overloading test agents.","The push model led to uneven resource consumption, with bursts of tests overwhelming test agents. As test volume increased, resource contention caused failures. The root cause was the lack of a controlled scheduling mechanism to distribute tests more evenly. The issue was resolved by implementing local queueing with worker services to regulate test execution.",Applying “strong-but-now-wrong” rule
+3,2/12/2025,"While parsing through a string, each character should be checked to see if it matches a given character and if it is the given nth instance of that character in the string. If it is the correct instance of the correct character, the character ‘0’ should be printed, otherwise the original character should be printed. In the case where the character did not match and the case where the character matched the given character and instance the behavior was correct. The case where the character matched but the instance did not match was neglected.","When reviewing the design of one’s own work, N conditions = 3 : character and instance matches, character matches and instance does not match, and character does not match. The conditions reviewed were the first and third scenario: n=2 $<$ N=3 conditions were reviewed.",Biased review
+4,2/12/2025,"C language, using strncpy() the length of the string being copied was one less than intended when trying to perform a substring operation with the function.",Off by one type of error. Just assumed that the length being specified as the end index minus the start index would be correct when it was just one off.,Biased review
+5,1/31/2025,"When grading a programming assignment, I wrote a shell script to display everyone's write-up file one after another in the terminal. However, some students put their write-up in a sub directory, and thus the script would not work in this case.",This is an example of biased review because I did not take into account the possible case of the write-up file not being located in the repo's root directory.,Biased review
+6,2/13/2025,"In game players choose an acting role to perform. They must stay on the role until they complete it. My program did not track a players role properly, allowing for a player to take multiple roles",I was focused on making sure a player could take a role and did not make sure they were prevented from taking additional roles. Fixed the error by including a check to make sure player can only have 1 role,Confirmation bias
+7,2/9/2025,EC2 test agents (t4g.nano) began failing to report testing result metrics due to overloaded CPU and memory utilization resulting in inability to complete tests within the designated timeframe. Upgrade to larger instance size necessary to restore operation.,"The selected EC2 instance type (t4g.nano) did not have sufficient resources to handle the workload, leading to performance degradation and failed test executions. This issue was likely caused by underestimating resource requirements or not performing adequate load testing before deployment.",Difficulties with exponential developments
+8,2/2/2025,"When comparing Integers in Java, == was used instead of .equals, resulting in a false boolean value even when the numeric values of the Integers was the same.",I didn’t know that Java uses caching for Integer values between -128 and 127 and creates new references for Integers outside of that range. So comparing Integers withing that range with == will reference the same value and return true but using == between to equally numeric Integers outside that range will return false.,Lack of knowledge
+9,2/13/2025,Was trying to edit a variable that I never initialized,"In this case, after working on a class for a larger program I stopped for the night. When I came back, I tried accessing the new class to use it to further my program. However, I forgot to initialize it in main, so when testing it didn’t work.",Omissions following interruptions
+10,2/6/2025,In C. Checked for the pattern “/*” rather than “$\backslash$*” in a char * (string) as the design document specifies,"I think because / is more of a common character for me to hit than \, and since they are so similar, I misinterpreted the requirement and implemented it wrong",Perceptual confusion
+11,2/17/2025,"I mistakenly called `fetchDeviceInfo()` instead of `fetchDeviceDetails()`, leading to incomplete metadata retrieval in my Smart Home Privacy Assistant.","The function names were too similar, making them easy to confuse. Since both returned valid but different results, I did not notice the mistake immediately.",Perceptual confusion
+12,2/9/2025,I replaced value 0x7FFFFFFF representing 0 in the sign bit followed by all 1’s in binary with value 0xFFFFFFFF representing all 1’s in binary.,The two values used have a very similar appearance of 7 F’s and both contain 31 1’s in the non-sign bits in binary. I temporarily deleted the value to test something and replaced the original 0x7FFFFFFF value with 0xFFFFFFFF.,Perceptual confusion
+13,2/7/2025,I copied the following line: let prev_under_ar c_index = under_arc.prev _arc_index; into: let next_under_ar c_index = under_arc.prev _arc_index; but it should have been: let next_under_ar c_index = under_arc.next _arc_index;,This is a post-completio n error because I named the variable correctly (thus allowing it to be accessed and allowing the program to compile) but I did not change what the variable was assigned to allowing the program to compile. This bug took me a while to find.,Post-completion error
+14,2/12/2025,Deployed EC2 instance that did not have the correct inbound rules for SSHing,As deploying the EC2 instance was the lions share of the work the security group rules became an afterthought,Post-completion error
+15,2/4/2025,"In C. Initialized a char * (pointer to a char variable) as just a char (just a char variable). After deciding to make a pointer rather than an array and deleting the array [], I forgot to add the * to make it a pointer rather than just a character itself","Did not notice I forgot to enter in a * until after I had written several more lines of code and the next compile failed. I already finished taking out the [] marking the variable type as an array, and I think my mind considered this as the main subtask, forgetting I also must add the * to the end of the variable type to properly change the type from an array to a pointer.",Post-completion error
+16,2/6/2025,"JS with React, defect exists where a text box that should accept all real numbers doesn’t allow decimal numbers to be entered into it.",JS React MUI library has many complex parts to it that interact with each other in strange ways leading to issues with piecing together complex functional elements.,Problems with complexity
+17,2/6/2025,"In Java, using the system line separator leads to undefined behavior dependent on the system since the line separator is represented by “\r\n” on Windows and “\n” on UNIX systems. This is in the documentation. Parsing such code based on line separators can be undefined in certain settings such as with files containing new line characters “\n”.",Assumed that the behavior in which the system line separator which worked on Windows would extend to other development environments as well when later investigation into the documentation revealed otherwise.,Rule encoding deficiencies
+18,2/10/2025,Overlooked addition of required IAM permissions when deploying new Bedrock testing to test agents using AWS CDK.,"The required IAM permissions were not included in the AWS CDK deployment, leading to permission failures on the EC2 test agents when interacting with the Bedrock API. This issue arose due failing to verify IAM policies before deployment.",Rule encoding deficiencies
+19,2/13/2025,"When performing a left AVL rotation on node X, node X must be established as node Y’s left child and node Y must replace node X as node X’s parent’s child. When performing the rotation node Y’s parent was set as node X’s parent, but node X’s parent’s child was not replaced.","When working with nodes X and Y, the most salient references that must be updated are references stemming from nodes X and Y. Therefore node X’s parent is correctly set to node Y, node Y’s left child is set to node X, and node Y’s parent is set to node X’s parent, but node Y’s child is not updated.",Selectivity
+20,2/9/2025,"In C. For an assignment making a terminal shell. I Didn't pass the entirety of the main() functions argv into the global variable I created (rather skipping the 0th index for what I thought would be easier handling), causing issues when implementing translating $# into number of arguments a user gave for the shell session. This made it difficult to tell if I was running my shell commands on a script or from stdin (the terminal), both of which handle translating $# slightly differently.","I was thinking by ignoring argv[0] and not passing it into my global variable that it would make it easier to create several different commands pertaining to my shell implementing script handling. However, I had not considered how I would be able to check if my shell commands were running from a script or stdin, or how I would handle implementing $# translation if it was running in stdin, rather than a script. This assignments main purpose was to add in script handling, so most of my attention went to implementing scripts correctly, leading me to not consider how my design would work for stdin, which I had focused on more in past assignments",Selectivity
+21,12/22/2024,"While parsing an integer array nums, true should be returned if there are any duplicates. A duplicate boolean was set to the value of the current int of the array and checked if it existed in a hashmap of all previous ints of the array. Instead of returning when the condition became true, each value of the array was parsed before the true condition of the last value of the array was returned.","The logic of setting a boolean to the value of the check between the current int and all previous ints was correct, the step of returning early when that boolean was true was forgotten.",Rule encoding deficiencies
+22,1/14/2025,"When initially coding the structure for the Magic Trees A1 assignment, the number of -'s (later changed to spaces) was based on a variable which was set to the current line number to the power of 2. The tree grows exponentially from the bottom, which is the last part printed, so the variable should be based on the(total lines - the current line number) to the power of 2.","When working with iterative indexes, typically we start from 0 or 1 and iterative positively. When working with printing an tree from the end to the starts, the overall order must be reversed too.",Applying “strong-but-now-wrong” rule
+23,1/14/2025,"In the Magic Trees assignment, I had a yCount variable meant to count the number of ‘Y’s printed in the last line containing Y’s. The variable ended up equaling the actual Y count / 2, and logic was built around it to account for that, but future logic tried to use the variable as if it was accurately set to the actual Y count.","The variable yCount did not actually accurately count Y’s, but gave the impression of doing so due to the variable name. This could also correlate with a mode similar to ‘Omissions following interruption’ and ‘Forgetting something has been done’ as something like ‘Misinterpreting something that has been done’.",Perceptual confusion
+24,1/14/2025,"In the Magic Trees assignment, when printing the number of spaces, depending on the line, the total spaces would be correct or too many, depending on the pattern needed in the current line.","The number of spaces needed per line depended on the line number and its reverse log 2 base. The reverse exponential factor along with variations in patters of spaces, slashes (\, /) and Y’s led to inconsistent applications of overarching logic when printing.",Difficulties with exponential developments
+25,1/11/2025,Student uses ‘=’ instead of ‘==’ when comparing integers in Java.,Student is new to Java and has previously used Python where the ‘=’ operator is used instead of ‘==’,Applying “strong-but-now-wrong” rule
+26,1/9/2025,Student replaced value 0x7FFFFFFF representing 0 in the sign bit followed by all 1’s in binary with value 0xFFFFFFFF representing all 1’s in binary.,The two values used have a very similar appearance of 7 F’s and both contain 31 1’s in the non-sign bits in binary. Student temporarily deleted the value to test something and replaced the original 0x7FFFFFFF value with 0xFFFFFFFF.,Perceptual confusion
+27,2/4/2025,In C. Incorrect logic in arg_parse(char *line) function,"Was not even considering that the line being passed in may be reused and may have already been chopped into a vector, and did not think to check and handle any of the effects this caused",Biased Review
+28,2/4/2025,In C. Forgot to delete print statement,"Found my defect 1 bug and corrected (main subtask), then completely forgot I
+needed to delete my debug print statements, as they did not have to be removed for
+my program to handle argument parsing correctly (my main subtask) and deleting
+the prints was the last step in the entire task",Post-Completion-Error
+29,2/7/2025,In C. Assigned a variable that is a char ** (array of strings) to a char * (single string) variable,"I was writing fast, and more typically deal with a char *, so I think my brain must’ve
+thought I wrote it correctly for the type and then moved on to the next (and much
+more complex) step",Applying “strong-but-now-wrong” rule
+30,2/9/2025,"In C. Assigned a char ** my array incorrectly. I assigned it argv[1]
+instead of argv + 1 (argv[1] passes just a single char * (string), and argv + 1 passes a char **
+(array of strings) that skips the 0th index of the variable)","I mistook how arrays are handled in C vs how pointers are handled in C, as pointers
+are a newer concept to me, and this is only my second class coding in C.",Lack of knowledge
+31,2/9/2025,"In C. Checked if my variable was > when I should have checked if it
+was <, when checking for if I was at the end of my array.","I was not keeping clear variable names, and I got confused on which variable was
+tracking what, in tandem with having much more complex logic to figure out andcode, therefore I wasn’t giving writing this if statement my full attention and easily
+confused which variable was what.",Perceptual confusion
+32,2/9/2025,"In C. For an assignment making a terminal shell. I Didn't pass the
+entirety of the main() functions argv into the global variable I created (rather skipping the 0th
+index for what I thought would be easier handling), causing issues when implementing
+translating $# into number of arguments a user gave for the shell session. This made it
+difficult to tell if I was running my shell commands on a script or from stdin (the terminal),
+both of which handle translating $# slightly differently.","I was thinking by ignoring argv[0] and not passing it into my global variable that it
+would make it easier to create several different commands pertaining to my shell
+implementing script handling",Selectivity
+33,2/9/2025,"In C. While checking if there was a space before a wildcard character
+(*) in my expand function, I forgot to add the space to the final string my function returns.","I was focusing much more on the larger and more
+complex subtask here (to identify if there is a wildcard character with a leading whitespace
+and handling wildcard insertion into the string) rather than remembering the whitespace
+must also be added to the final string my function returns.",Selectivity
+34,2/11/2025,"In Java. I tried to make an array of a parent class, with some of the
+indexes being different child classes, forgetting you cannot access their variables or
+methods that are not in the parent without handling it in a specific way (type casting)","I had not worked with java in over a year (or any other object oriented language) and
+forgot how inheritance worked",Lack of knowledge
+35,2/9/2025,"The grading script required the filename `Q1_percent.py`
+to run `pytest`. However, student submissions included
+additional identifiers in filenames, such as
+`studentname_4480817_129425548_Q1_percent.py`.
+Since the script expected an exact filename match,
+`pytest` threw a ""File Not Found"" error.","The script was designed to work with a predefined filename
+but failed due to filename variations. There was no
+mechanism to automatically identify or rename files before
+running `pytest`, leading to failing tests.",Rule Encoding Deficiency
+36,2/13/2025,"While solving a LeetCode problem that required binary
+search, I wrote the implementation from memory, assuming
+it was correct. However, I mistakenly used `low < high`
+instead of `low <= high`, causing an infinite loop.","Due to confidence in my binary search knowledge, I didn't double-check the implementation. This small mistake caused an infinite loop, which could have been avoided with a quick review.",Confirmation Bias
+37,2/12/2025,"While debugging a Python program, I inserted multiple
+`print()` statements to check variable values but forgot to
+remove them before running final tests, leading to excessive
+console output.","I relied too much on manual debugging and did not use
+proper logging techniques. The leftover print statements
+cluttered the output, making it harder to interpret test
+results.",Omissions following interruptions
+38,N/A,"While working on a project in a virtual environment, I
+installed dependencies using `pip install -r
+requirements.txt`. Later, I ran the script outside the virtual
+environment, leading to a `ModuleNotFoundError`.","I assumed dependencies installed in the virtual environment
+would be globally available. However, I forgot that virtual
+environments isolate dependencies and needed to be
+activated before running the script.",Rule Encoding Deficiencies
+39,N/A,"While solving a LeetCode problem, I used a brute-force
+solution with `O(n²)` complexity, which worked on small
+inputs but resulted in a Time Limit Exceeded (TLE) error on
+larger inputs.","I assumed my approach would scale without analyzing time
+complexity. I underestimated how quickly exponential time
+complexity grows.",Lack of Knowledge
+40,2/14/2025,"The assignment required students to compute an average but
+did not specify behavior for an empty list. Students
+implemented different behaviors, causing grading
+inconsistencies.","The lack of explicit requirements led to different
+interpretations. A well-defined requirement should specify
+expected behavior for edge cases.",Biased Review
+41,1/14/2025,"In Assignment 1, I worked on code in class but forgot to
+commit my final version. Luckily, a bonus commit saved me
+from deductions.","I failed to track my progress properly and forgot to commit the
+final version, assuming the task was complete.",Post-Completion Error
+42,2/9/2025,"While writing a research paper, I was interrupted by a meeting
+and later forgot to complete an important section.","The interruption caused me to assume the section was
+complete when I resumed, leaving it incomplete.",Omissions following interruptions
+43,1/14/2025,"In Assignment 1, I completed the tree diagram but forgot to
+replace dashes (`-`) with spaces, as required.","I assumed the task was complete when the tree structure
+looked correct and did not double-check formatting rules.",Post-Completion Error
+44,2/8/2025,Forgot to import {useState} even though I used it later in the program,Remembering to import is far less psychologically salient than the main body of the code,Selectivity
+45,2/8/2025,Forgot to import {useState} even though I used it later in the program (again),Remembering to import is far less psychologically salient than the main body of the code,Selectivity
+46,2/8/2025,Mistyped “border” as “bprde”,I did not expect a typo and so did not examine the spelling after typing,Biased Review
+47,2/8/2025,Wrote “i” instead of “1”,1 and i look similar enough that I typed the wrong one,Perceptual confusion
+48,2/8/2025,Installed a package in the wrong folder (one level higher than it should have been),"Because the code worked, I did not check that the package was installed in the correct location",Biased Review
+49,2/8/2025,Used ‘quotes’ instead of `quotes`,I was unaware that `quotes` needed to be used in order to include variables in a string,Lack of knowledge
+50,2/8/2025,Passed in a component inside curly braces when it needed those to be excluded,"Previously, passing the component inside curly braces had worked",Applying “strong-but-now-wrong” rule
+51,2/15/2025,Did not include an Outlet when nesting routes in a router,I was unaware that the Outlet was needed and assumed it was optional,Lack of knowledge
+52,2/15/2025,Did not make sure the user input was formatted correctly before placing it into a url,Applying a method to format the input was a small step that was less psychologically salient,Selectivity
+53,2/15/2025,Checked if an object was null instead of using isArray method,I was not previously aware of the isArray method,Lack of knowledge
+54,2/9/2025,I used “=” instead of “==” for a conditional.,"“= =” and “=” look similar, therefore it is a perceptual confusion",Perceptual Confusions
+55,2/9/2025,I reused old function logic for a new programming assignment.,I applied a previously successful function from an old project without realizing that the new project requires more complex logic,Applying “strong-but-now-wrong” rule
+56,2/11/2025,I forgot to print the result of the function which was a requirement of the assignment.,I finished the core functionality but forgot the very last step of printing the result.,Post-Completion-Error
+57,2/12/2025,I forgot to add input validation for processing user input.,"While I was designing a function I was interrupte-d, and I skipped this step when I returned",Omissions following interruptions
+58,2/14/2025,I forgot to consider edge cases for input validation.,"I assumed that all input would fall within a certain range, and I failed to consider empty or null values.",Rule Encoding Deficiencies
+59,2/14/2025,I incorrectly implemented the 0/1 knapsack problem.,"I was new to this problem and I thought that the greedy solution would work, but I needed to use a dynamic programm-ing approach",Lack of Knowledge
+60,2/16/2025,"I was creating test cases for a leetcode type problem, and left out important test cases.","I believed that all cases were already considered, but failed to take all conditions into considerat-ion.",Biased Review
+61,2/18/2025,I thought the dynamic programming solution would be optimal for fractional knapsack but the greedy solution was optimal.,"I incorrectl-y assumed that since 0/1 knapsack’s optimal solution was dynamic programming, then fractional knapsack would also be dynamic programming, but it was not.",Applying “strong-but-now-wrong” rule
+62,2/18/2025,I incorrectly had the program terminate at unexpected input.,I paid attention to salient information rather than the important logic of including try catch to prevent the program from terminating early.,Selectivity
+63,2/18/2025,I was unaware of the optimal algorithm for detecting a linked list cycle.,I did not know of the “Hare and Tortoise” approach to this problem which leads to the optimal solution.,Lack of Knowledge
+64,2/15/2025,Used the call “Process_set” instead of using “Processes”,Given thatboth calls aredefined in the same header file and that both are next to each other SK1 is the most likely cause,Perceptual Confusions
+65,2/15/2025,"Overcrowde
+d function
+with
+unnecessary
+checks to
+register
+values","Focusing on
+the wrong
+things I
+overcrowded
+my terminal
+with not
+valuable
+information
+that made it
+harder to find the true
+error",Selectivity
+66,2/12/2025,"Deployed
+EC2 instance
+that did not
+have the
+correct
+inbound
+rules for
+SSHing","As
+deploying
+the Ec2
+instance was
+the lions
+share of the
+work the
+security
+group rules
+became an
+afterthought",Post-Completion Error
+67,2/12/2025,"Used a
+hardcoded
+value
+instead for
+frame count
+instead of
+using the
+global
+NUM_FRA
+MES as the
+value is now
+different","Did not
+account for
+growth of
+the variable
+so i used a
+hard coded
+value",Difficulties with exponential developments
+68,2/10/2025,"Did not
+implement
+fair waiting","As I had
+finished the
+main portion
+of the assignment I
+had
+forgotten to
+implement
+fair waiting
+in mine",Post-Completion Error
+69,2/19/2025,"Set Rsp to
+0x1ffffe","Not having
+read the
+entire
+assignment
+document I
+set the Rsp
+to 0x1ffffe
+not 0x200000",Lack of knowledge
+70,2/19/2025,"Did not turn
+ints back on
+after
+return_to_us
+er call","After
+turning the
+interrupts off
+you must
+turn them
+back on after
+return to
+user, i did
+not account
+for that",Post-Completion Error
+71,2/19/2025,"Used setReg
+instead of
+setTrapReg","To
+implement
+ExecNewPro
+gram you
+must use setTrapReg
+and not
+setReg",Perceptual Confusions
+72,2/20/2025,"Did not set
+the correct
+error code","Assuming
+that I would
+send the bad
+address error
+as i had
+done in my
+other code I
+set the
+address error
+when it
+shouldve
+been a not a
+file error",Applying “strong-but-now-wrong” rule
+73,2/20/2025,"The array
+bit_array
+was not
+properly
+allocated","Assuming
+that my code ing
+from the
+previous
+assignment
+was correct I
+chose not to
+review the
+a3-ref file as
+I assumed
+that I was
+correct",Confirmation Bias
+74,2/6/2025,"Linked the wrong CSS file to my html after using an old project as a
+template for a new one","This falls under strong-but-now-wrong because I have used many projects in the
+past as templates for new projects. Specifically, when using HTML, I usually copy
+over my HTML and CSS files, however in this case I already had a separate CSS file
+created. This caused me to continue with the project not realizing that my
+implementation was wrong.",Applying “strong-but-now-wrong” rule
+75,2/9/2025,"Made a create() function incorrectly for a digital signature project
+due to because bad instructions, however I had another
+assignment that I could have used as an example","This error was due to Rule Encoding Deficiencies, mainly due to the bad instructions given by
+the professor. This caused me to not be able to correlate the method from the other
+assignment, causing a faulty rule formation.",Rule Encoding Deficiencies
+76,2/9/2025,"Made an extension of a previous project and when running it
+through a server it added an illegal character, even when it worked
+before","Because this part of the program worked in the pervious project, I assumed nothing would be
+different. However, running it through a server introduced novel circumstances that I was not
+expecting. I assumed that the project would function the same way after I modified it.",Applying “strong-but-now-wrong” rule
+77,2/9/2025,"When doing a project, I put a lot of attention to specific outputs, but
+it turned out that it didn’t have to be exact","This is a clear example of selectivity because I focused more on the psychologically salient
+information. The outputs stood out to me when going over the project because I believed if I could
+replicate the outputs, my code would be correct, but if I focused more on the logically important
+information, I could have completed that part of the assignment much faster.",Selectivity
+78,2/9/2025,"Trying to decode Base64 characters manually when there is a class
+and method that does that already","I think that lack of knowledge was responsible for this because although I believe I understand Java
+pretty well, I have never used Base64. So when trying to decode something into Base64 I was
+completely lost and tried to do it manually. Turns out there is a java Base64 class with a decoder.",Lack of Knowledge
+79,2/10/2025,"Trying to debug an error, focusing on the error when the input was
+actually what was wrong","This scenario was caused by me focusing too much on the error message and not looking at the
+input that was being printed before it. Instead of stepping back and looking at the bigger picture, I
+was focused on information that was not as important As you can see the input is clearly off.",Selectivity
+80,2/13/2025,Trying to compare two integers and used one = instead of two ==,"This mistake was just a syntax slip because both symbols look similar. It wasn’t a
+misunderstanding of logic or rules, just a typing error that happened instinctively.",Perceptual Confusions
+81,2/13/2025,"Being lazy and putting all of my code into a big else if, making it
+harder to understand","This scenario fits best into confirmation bias because while coding, Ignored alternative approached
+that might have made my code cleaner and easier to understand. Instead, I used a large else if,
+because at first it kept everything in order, but soon got out of hand to the point where I had to go
+back and create new methods to reduce its size.",Confirmation Bias
+82,2/13/2025,"Thought I finished coding the move function but realized that a
+player can just keep moving","When creating my move function for my program I finished the actual functionality of moving
+the character, however I forgot the necessary condition of making sure to keep track if a player
+has already moved or not on their turn.",Post-Completion Error
+83,2/12/2025,Incorrect Python print syntax,Used outdated print syntax from Python 2,Applying “strong-but-now-wrong” rule
+84,2/12/2025,Infinite loop due to incorrect condition.,Forgot to update loop variable.,Difficulties with exponential developments
+85,2/12/2025,Used wrong formula for matrix multiplication.,Applied previously known formula without verification.,Applying “strong-but-now-wrong” rule
+86,2/15/2025,Forgot to close file after writing.,"Focused on task completion, ignored cleanup.",Omissions following interruptions
+87,1/17/2025,"Initially for cost reasons, some EC2 test agents were IPv6 only. Later I updated all test agents to dual stack. However, automated unit testing in CI/CD pipeline included a validation of IPv6 only EC2 instances which no longer existed resulting in a build failure.","The CI/CD pipeline continued to check for IPv6-only instances even after all test agents were converted to dual stack. The test logic was not updated to reflect the infrastructure change, leading to failures in automated validation.","Applying “strong-but-now-wrong” rule, Biased review"
+88,1/23/2025,"AWS Lambda functions intermittently failed to utilize new code following UpdateFunctionCode operation. After failed attempts with adding sleep intervals, discovered that Lambda code updates adhere to an eventually consistent update model, wherein new code is not guaranteed to be accessible immediately after an update. Refactored to leverage an API providing the update status. ","The assumption that updated Lambda code would be immediately available led to failures when old versions continued executing. The initial workaround of inserting sleep intervals did not reliably resolve the issue. The root cause was eventually identified as AWS’s eventual consistency model for Lambda deployments, necessitating the use of an API to check update status before invoking the function.","Lack of Knowledge, Difficulties with exponential developments"
+89,1/24/2025,"EBS block volumes intermittently fail to fully attach to EC2 instances resulting in stuck volumes, failed tests, and occupied /dev/xvdN device alias (do not appear in OS while AWS control plane believes they are in use). Added more robust error handling (force detach and block device alias from future testing).","The AWS control plane reported the volume as attached, but the OS did not recognize it, leading to failed tests and resource conflicts. This issue stems from inconsistencies between AWS’s internal state tracking and actual EC2 instance state. The problem was mitigated by implementing force-detach logic and preventing reuse of affected block device aliases in subsequent tests.","Lack of Knowledge, Biased Review"
+90,1/28/2025,"While waiting for AWS EFS volumes to transition to available status, excessive API polling requests resulted in 529 throttling errors (request limits are not well documented). Introduced sleep spacing between requests to work around.","The script repeatedly polled the AWS API without rate limiting, leading to excessive requests and API throttling (529 errors). AWS does not clearly document the request limits for this operation, leading to unexpected failures. The issue was resolved by introducing a delay between requests.","Lack of Knowledge, Difficulties with exponential developments"
+91,2/3/2025,BigQuery SQL queries intermittently failed due to invalid characters in large multiline stdout / stderr output captured and stored during test execution that failed to escape properly in bash test scripts. Used base64 encoding and decoding to resolve.,"The test script failed to properly escape or sanitize special characters when capturing and storing stdout/stderr output. This led to malformed SQL queries when inserting the output into BigQuery, causing intermittent failures. The issue was resolved by encoding the output in base64 before storage and decoding it when needed.","Perceptual Confusions, Rule Encoding Deficiencies"
+92,2/15/2025,RabbitMQ messages lost during high volume queueing operations. Issue due to lack of ConfirmSelect and WaitForConfirm acknowledgements when using HTTP API with curl,System failed to ensure message durability due to reliance on an (incorrect) assumption that messages sent via HTTP API would be durably queued. The absence of ConfirmSelect and WaitForConfirm led to silent message loss under high load conditions.,"Lack of Knowledge, Biased Review"
+93,2/13/2025,When constructing bash CLI command using sprintf applied an optional argument with a leading space instead of trailing space resulting in lack of spacing between it and ­the next successive command.,"Incorrect placement of the space in the sprintf format string caused the optional argument to merge with the next command segment, breaking the intended syntax. This error is subtle and may not be immediately visible, especially if the argument is sometimes omitted.","Perceptual Confusions, Omissions following interruptions"
+94,2/15/2025,Incorrect conditional logic for user input validation.,Misunderstood logic for if-else condition.,Lack of Knowledge
+95,2/16/2025,Function call with wrong parameters.,Overlooked parameter order during function call.,Perceptual Confusions
+96,2/16/2025,Forgot to initialize a variable.,Jumped to coding without checking variable state.,Lack of Knowledge
+97,2/10/2025,Used outdated API method.,Reused old code without checking API changes.,Applying “strong-but-now-wrong” rule
+98,2/10/2025,Incorrect loop range caused partial output.,Miscalculated loop boundary condition.,Difficulties with exponential developments
+99,2/10/2025,Division by zero error.,Failed to handle edge case.,Rule Encoding Deficiencies
+100,2/5/2025,"Assigned
+incorrect bonus
+pay value for
+Deadwood
+Game","A person intends
+to do something
+different from a
+well-practiced
+activity in familiar
+surroundings, but
+fails to make an
+appropriate
+intentional check,
+because the
+intrusion of the
+existing “strong’
+routine",Double-capture slips
+101,2/5/2025,"Retrieved
+students names
+from wrong
+department on
+Homework","Psychologically
+salient, rather than
+logically important
+information is paid
+attention to",Selectivity
+102,2/6/2025,"Deadwood game
+had incorrectly
+implemented
+end condition","Humans tend to
+underestimate the
+rate of change,
+either growth or
+decline, and tend
+to construct linear
+models, when
+exponential
+models are
+required to
+understand a
+situation in reality",Difficulties with exponential developments
+103,2/6/2025,"Deadwood game
+has incorrectly
+implemented
+score tracker","Features of a
+particular situation
+are either not
+encoded at all or
+misrepresented in
+the conditional
+component of the
+rule",Rule Encoding Deficiencies
+104,2/7/2025,"Deadwood game
+incorrectly
+handled players
+turn after being
+interrupted by
+roommates","Original Sequence
+of activity is
+picked up one or
+two steps further
+along after an
+interruption","Omissions
+following
+interruptions"
+105,2/8/2025,"Display wrong
+attribute column
+for database
+homework","People tend to
+mistakenly use one
+item for another
+because these two
+items share some
+similarities",Perceptual Confusions
+106,2/12/2025,"Cards not
+appearing in
+Deadwood","Features of a
+particular situation
+are either not
+encoded at all or
+misrepresented in
+the conditional
+component of the
+rule",Rule Encoding Deficiencies
+107,2/14/2025,"Incorrect
+average
+calculation in
+database
+homework","Features of a
+particular situation
+are either not
+encoded at all or
+misrepresented in
+the conditional
+component of the
+rule",Rule Encoding Deficiencies
+108,2/15/2025,"IOException
+error in
+Deadwood","Software
+vulnerabilities are
+introduced when
+one lacks
+knowledge, or
+even does not
+realize some other
+knowledge is
+required. This
+error mode is
+liable to appear
+especially when
+the problem
+belongs to an
+unfamiliar
+application domain",Lack of Knowledge
+109,2/17/2025,"Incorrect day
+transition logic
+in Deadwood","In a context that is
+similar to past
+circumstances,
+people tend to
+behave in the same
+way, neglecting
+the signs of
+exceptional or
+novel
+circumstances. The
+more frequently
+and successfully
+the rule has been
+used before, the
+more likely it is to
+be recalled and
+used.",Applying “strong-but-now-wrong” rule
+110,2/4/2025,"Code uploaded to
+run on the cloud
+(AWS) used a
+package installed
+for Windows and
+not Linux (which
+the cloud used).","Environment
+requirements
+when working
+with AWS CDK
+were not known
+when deploying
+a particular
+package.",Lack of Knowledge
+111,2/6/2025,"JS with React,
+defect exists
+where a text box
+that should accept
+all real numbers
+doesn’t allow
+decimal numbers
+to be entered into
+it.","JS React MUI
+library has
+many complex
+parts to it that
+interact with
+each other in
+strange ways
+leading to
+issues with
+piecing together
+complex functional
+elements.",Problems with complexity
+112,2/10/2025,"Java,
+programming in
+Eclipse the code I
+wrote doesn’t
+work with relative
+file paths due to
+how Eclipse
+manages the JRE.","Eclipse
+configures and
+runs the Java
+Runtime
+Environment
+(JRE) in a
+strange way
+that isn’t
+entirely known
+leading to
+issues with
+relative file
+paths. It is not
+known where
+the JRE runs at.",Lack of Knowledge
+113,2/10/2025,"Similar issue to
+defect #2 but
+different in
+nature. The
+system was
+encoding “\r\n”
+as line separators
+between sections
+of code; however,
+the code parsing
+this read in “\r\n”
+as just “\n” when
+parsing each line
+causing an error
+in most contexts.","Normally “\n”
+would be
+considered a
+newline
+character by
+itself, but since
+“\r\n” can
+count as a
+newline in
+Windows, it
+gets parsed as
+the same thing
+as “\n” when
+reading line-by-
+line.",Applying “strong-but-now-wrong” rule
+114,2/11/2025,"Defect in AWS
+cloud deployment,
+tried to use a
+comma in the
+description of a
+cloud resource
+when commas
+aren’t permitted,
+prevented cloud
+deployment until
+fixed.","Unaware that
+commas aren’t
+permitted in
+cloud resource
+descriptions in
+AWS. I didn’t
+know until I
+attempted
+deployment.",Lack of Knowledge
+115,2/11/2025,"Missing closing
+parentheses and
+semicolon were
+missing on AWS
+cloud deployment.","Multiple nested
+parentheses
+spanning
+multiple lines
+resulted in
+perceptual confusion
+forgetting
+parentheses and
+a semicolon at
+the end of a
+function call.",Perceptual Confusions
+116,2/12/2025,"C language
+strncpy() was
+supposed to start
+at the end of
+where the first of
+two strings was
+copied in a
+destination string
+but began at the
+very beginning of
+the destination
+instead.","Function call
+was copied
+from similar
+section of code
+above the one
+that caused the
+error, the
+original code
+worked as
+intended but
+was incorrect in
+the new context.",Applying “strong-but-now-wrong” rule
+117,2/13/2025,"Code moved
+outside of a
+function to a prior
+point in a file
+caused an issue
+with the variables
+the code snippet
+referenced being
+undefined.","Most attention
+was paid to the
+variables
+defined by the
+code snippet
+ignoring the
+variables
+referenced in
+the code snippet
+itself and
+ignoring
+whether they
+were defined
+ahead or after
+where the code
+was moved to.",Selectivity
+118,2/5/2025,"Initially
+misunderstood
+that the task
+required printing a
+binary tree
+pattern, while the
+actual pattern
+required extra
+rows and
+columns.","Misinterpretation
+of problem
+requirements led
+to incorrect
+initial design.","Lack of
+Knowledge"
+119,2/5/2025,"Used incorrect
+formula cols = 2^h
+for computing the
+number of
+columns in the
+matrix.","Applied a well-
+known formula
+without verifying
+its correctness
+for the given
+problem.",Applying “strong-but-now-wrong” rule
+120,2/7/2025,"Needed to adjust
+the formula to
+rows=2**height+1,
+cols=2*rows-3 to
+fit the actual
+required pattern.","Realized that the
+previous formula
+did not allocate
+enough space,
+leading to
+incorrect tree
+representation.","Difficulties
+with
+Exponential
+Developments"
+121,2/7/2025,"Forgot to update
+part of the code
+that references
+the incorrect
+column formula.","Made updates in
+some parts of
+the code but
+missed others,
+causing
+inconsistencies.","Omissions
+Following
+Interruptions"
+122,2/8/2025,"Initially used a
+wrong indexing
+approach in the
+populate_matrix function, leading
+to misplaced
+branches (\ and /).","Miscalculated
+matrix indexing
+because of
+incorrect assumptions
+about midpoint
+calculations.",Rule Encoding Deficiencies
+123,2/8/2025,"Forgot to push the
+code to GitHub
+after making
+significant
+progress.","Did not follow
+best practices
+for version
+control, leading
+to potential loss
+of work.","Post-
+Completion
+Error"
+124,2/9/2025,"Used inconsistent
+naming
+conventions for
+variables like
+tree_ages and
+input[].","Lack of
+consistency in
+variable naming
+due to cognitive
+overload.",Selectivity
+125,2/9/2025,"Failed to test for
+edge cases like
+height=0, leading
+to incorrect tree
+rendering for small
+inputs.","Assumed basic
+cases would
+work without
+explicit testing.",Biased Review
+126,2/9/2025,"Initially did not
+check for non-
+integer inputs in
+input() handling,
+leading to crashes
+when users
+entered invalid
+values.","Focused on logic
+implementation
+but ignored input
+validation.","Confirmation
+Bias"
+127,2/9/2025,"Printed incorrect
+output formatting
+due to misplaced
+printMatrix() calls
+in a loop.","Misplaced
+function call due
+to lack of careful
+review.",Perceptual Confusions
+128,2/7/2025,"I was trying to
+transcribe the
+expression 1 /
+(2 * (f_x - y_d))
+into code but
+instead I wrote
+1 / 2 * (f_x -
+y_d) which
+caused issued
+with evaluation
+order and
+caused to
+expression to
+be slightly off.","This is a rule
+encoding
+deficiency
+because I
+failed to apply
+the correct
+parenthesis to
+get the
+expression
+order right. I
+understand the
+rules around
+expression
+order and
+parenthesis but
+did not apply
+them correctly
+in this case.",Rule Encoding Deficiencies
+129,N/A,"This was a
+while ago. I
+wrote some
+buggy code to
+remove all
+items from a
+list that
+satisfied some
+condition:
+for (int i = 0; i <
+list.length();
+i++) {
+var item = list[i]
+if (item should
+be removed) {
+list.removeAt(i)
+}
+}
+This code
+doesn't work
+correctly
+because as
+you remove
+items, that
+reduces the
+length of the
+list. But the
+iterator variable
+item i still
+increments.
+This leads to
+items which
+appear right
+after a
+removed item
+to be skipped.
+Consider the
+following
+variant of this
+error:","This is an
+example of
+applying a
+strong but now
+wrong rule.
+Using a for
+loop to iterate
+through a list
+like this is
+common
+practice and is
+usually an
+effective
+solution for
+doing
+something to
+each element
+of a list. This
+technique is
+the strong rule.
+However, in
+this case it is
+incorrect
+because the
+list changes
+and becomes
+smaller as you
+iterate through
+it. In this case,
+it requires the
+programmer to
+give additional
+thought to the
+situation
+beyond
+traditional
+utilization of a
+for loop list
+iterator.",Applying “strong-but-now-wrong” rule
+130,2/7/2024,"I utilized the
+Rust standard
+library's priority
+queue
+implementation
+as part of an
+algorithm
+implementation
+I was working
+on. At first, I
+assumed it was
+a min-heap
+priority queue. I
+assumed this
+for two
+reasons:
+1. Most priority
+queue libraries
+that I have
+used in the
+past implement
+min-heap.
+2. It made my
+task easier for
+it to be a
+min-heap.
+In actuality, it
+was a
+max-heap,
+causing a
+defect in my
+code that had
+to be
+addressed.","This is an
+example of
+applying
+""strong-but-no
+w-wrong"" rule
+because in the
+past I have
+utilized
+min-heap
+libraries which
+formed a rule
+that priority
+queues are
+usually
+min-heap. In
+the case of the
+Rust standard
+library however
+this rule turned
+out to be
+incorrect.",Applying “strong-but-now-wrong” rule
+131,N/A,"This defect
+occurred a long
+time ago when
+I was first
+learning Java. I
+did not know
+about the Java
+ArrayList class
+but wanted to
+add new items
+to the end of
+an array. So, I
+wrote code that
+created a new
+array that was
+n+1 size,
+copied over the
+existing array,
+and added the
+new item to the
+new empty
+spot at the end.
+In practice, this
+is significantly
+inefficient when
+compared to
+ArrayList
+because
+ArrayList
+doubles in
+capacity
+whenever it
+runs out of empty spaces.
+This gives it a
+amortized
+runtime of O(1)
+compared to
+my naive
+approach
+which has a
+best-case
+runtime of
+O(n).","This is an
+example of
+lack of
+knowledge
+because I was
+unaware of the
+use ArrayList
+class built-in to
+Java which did
+exactly what I
+wanted in a
+way that is
+significantly
+more efficient
+then my
+approach. (See
+fig. 2)","Lack of
+Knowledge"
+132,N/A,"Last quarter I
+helped develop
+a Chrome
+extension as
+part of a class
+project that
+removed ads,
+videos, and
+other
+extraneous
+elements from
+web pages.
+One of the
+sites we tested
+would very
+occasionally
+throw up a
+pop-up, and if it
+did this while
+our extension
+was running it
+would
+completely
+break the site
+because the
+button to close
+the pop-up
+would get
+deleted by our
+extension. In
+this case, the
+user would
+have to reload
+the site. We did
+not have time
+to investigate
+and fix this
+bug.","I'm not sure
+what kind of
+error mode this
+is. My best
+guess is biased
+review
+because this is
+a situation we
+did not account
+for and did not
+expect, but it
+could also be
+lack of
+knowledge
+because I did
+not know how
+to fix this. That
+being said I
+probably
+could've found
+a way given
+more time, but
+I wanted to
+avoid creating
+website-specifi
+c workarounds
+for situations
+like this
+because it
+would have
+greatly
+expanded the
+scope of the
+project.",Biased Review
+133,N/A,"This was a
+defect I
+actually
+shipped in an
+earlier version
+of my
+bitscalc.com
+site. Basically, I
+spent a lot of
+time styling my
+website to give
+it a unique and
+compelling
+look. However,
+I only tested
+my site using
+the Firefox web browser on
+dark mode.
+There were
+multiple visual
+defects when
+using Chrome
+or light mode in
+the earlier
+version of my
+site. It took me
+a long time to
+become aware
+of this (only
+after sending
+the site to an
+associate) and
+even longer
+before I
+actually fixed
+this issue. This
+defect is
+especially
+interesting to
+me because it
+was part of a
+product I
+actually
+released and
+had to fix after
+the fact.","This is an
+example of
+biased review. I
+did not even
+think to check
+to make sure
+the style
+worked on
+other browsers
+or when light
+mode was
+enabled. I just
+assumed that if
+it looked good
+on Firefox dark
+mode it would
+look good on other platforms
+and
+configurations,
+which turned
+out not to be
+the case.",Biased Review
+134,2/19/2025,"Last week I
+was grading
+student code
+submissions
+and as part of
+that process I
+had to type the
+following
+command
+many times: cd
+../a2-{student
+repo name}
+This week I
+was grading
+another
+assignment
+and I had to
+type a slightly
+different
+command:
+cd
+../toyos-{studen
+t repo name}
+However, I very
+often typed the
+first command.","I believe this is
+strong-but-now
+wrong rule
+because the
+typing the first
+command
+many times
+formed a
+strong rule in
+my thinking
+that was
+incorrect now
+that I was
+grading a
+similar but
+different
+assignment.
+My only
+confusion here
+is that to me
+this feels like it
+could be
+happening at a
+skill-based
+performance
+level because I
+was not really
+concentrating
+on the task as I
+was doing it. In
+other words,
+typing this
+command felt
+automatic to
+me. In that
+case it might
+satisfy the mode of double
+capture slip.","Applying “strong-but-now-wrong” rule, Double Capture Slip"
+135,2/20/2025,"When grading
+some student's
+coding
+assignments, I
+frequently
+encountered
+several
+submissions
+that would not
+compile or
+would fail
+before running
+the tests. I first
+assumed these
+submissions
+were defective,
+but it turned
+out to be
+something
+else. Students
+were supposed
+to mark their
+submission
+commit as
+a3-submit, and
+my grading
+script
+automatically
+checked out
+this submit.
+However, not
+all students
+labeled their
+commit
+correctly. This
+turned out to
+be the case
+regarding the
+submissions
+that were
+failing. It took
+me a while to
+realize this,
+and I had to go
+back and
+re-grade those
+submissions
+with the correct
+commit
+checked out.","This is an
+example of
+biased review
+because I did
+not account for
+students who
+did not label
+their
+submission
+commit
+correctly. I was
+aware of the
+possibility not
+all students
+would name
+their commit
+correctly, but I
+was unaware
+of how it would
+cause
+problems for
+my grading. I
+did not think to
+account for all
+cases in this
+situation.",Biased Review
+136,2/10/2025,"I initialized a variable in rust by writing:
+int x = 10;
+The correct syntax in rust is let x = 10;",I misused a rule I had developed for the syntax for initializing variables in c in rust.,Applying “strong-but-now-wrong” rule
+137,2/1/2025,"In the magic trees assignment, I assumed that there was a linear relationship in the growing of the trees during my design phase.","Because of lack of experience with exponential relationships, I wasn’t able to properly Identify the",Difficulties with exponential developments
+138,2/12/2025,"I initially omitted a reference in the following rust code:
+pairs.contains(&(el, el)), forgetting that the reference is necessary for the contains method not to take ownership of the elements I was iterating through",I omitted the & sign because of my shallow understanding of the ownership rules in the Rust programming language.,Lack of knowledge
+139,2/12/2025,"I implemented my function for calculating whether a set is reflexive or not with loops, which is considered to be mutable control flow. The requirements of the assignment were for the code to be purely functional",My lack of knowledge about functional design principals led me to take an iterative approach rather than a functional approach to the implementation of the reflexive set function.,Lack of knowledge
+140,2/19/2025,I wrote the IdentityFile parameter in my ssh config as “IdentifyFile”,"The ‘t’ in identity file looks very similar to the ‘f’ in IdentifyFile. Additionally, Identify is a real word so it’s an easy mistake to make",Perceptual Confusions
+141,2/15/2025,I mistyped the variable name pairs as pairs in a program while listening to music,"Mistakes in completing routine mechanical actions like typing are generally considered Skills based. Due to distraction of the music, I would argue that this is an example of the interference category",Interference
+142,2/16/2025,"When implementing a lisp-like function to determine if a set and relation is reflexive, during the recursive call I passed in the entire array, instead of a slice, resulting in a stack overflow.","I was quickly jumping between conditional branches when writing the function, without fully checking or considering each one. I would consider this an example of thematic vagabonding",Thematic vagabonding
+143,2/16/2025,"When implementing a function to check if a set was symmetric, I implemented the function for the symmetric difference.","I hadn’t reviewed the set functions since taking 301, and I was overconfident about my knowledge of them",Overconfidence
+144,2/16/2025,"When Implementing the Reflexive function, I calculated whether a set was reflexive or not, but forgot to print out a custom message within the function which was part of the requirements. ","The task of implementing the function had the subtask of printing a custom message, which I forgot about. Therefore, this is a post completion error",Post-Completion Error
+145,2/16/2025,"When implementing a lisp-like version of the reflexive function, I initially started by implementing the set of variables as a HashSet, instead of an Array. As a result, I wasn’t able to easily grab the first element in the set, as the set is not ordered.","This mistake is due to my lack of knowledge about the Rust programming language. When I first began writing the function, I didn’t consider the set data type wouldn’t let me treat the data as a list.",Lack of knowledge
+146,11/1/2022,"In an update on JOIN
+in SQL I set the
+entirety of a column
+in a shipping label
+table to be one value
+from inventory based
+off a non-unique ID","I mistook sto_id as
+hu_id in a hastily-
+before-lunch-move
+and accidentally
+updated all inventory
+to be on one label",Perceptual Confusions
+147,7/25/2023,"Created a race
+condition by not
+properly locking a
+mutex in C with
+pthreads","Lack of familiarity
+with domain of
+threading caused user
+to introduce race
+conditions.",Lack of knowledge
+148,3/20/2024,"Mistook an “item”
+class for a “backpack
+item” class","User chose “item”
+class rather than
+“backpack item” class
+because they looked
+similar.",Perceptual Confusions
+149,1/13/2025,"In Magic Tree, I
+focused on the visual
+input and spent too
+much time creating a
+two-line input
+mechanism","I chose to focus on
+the visual input
+instructions vs the
+textual input
+instructions and got
+lost in implementing
+something wrong",Selectivity
+150,1/13/2025,"I struggled with
+exponents, although
+simple, for longer
+than I’d like to admit,
+which caused growth
+issues in Magic Tree.","Underestimated the
+rate of change and
+tried to make
+something more
+complex than
+necessary, which
+inflated the growth
+rate.",Difficulties with exponential developments
+151,1/14/2025,"Didn’t test scaling of
+webpage at min sizes
+for mobile viewing","Programmer believed
+all sizes had been
+tested, but only a
+subset of webpage
+sizes was tested",Biased Review
+152,1/30/2025,"Interruption when
+designing a website,
+came back and
+added a navigation
+link without creating
+the page.","I picked up my
+original sequence of
+designing a webpage
+further downstream
+than I left it, cause me
+to not design one of
+the pages.","Omissions
+following
+Interruption"
+153,2/1/2025,"Placed a wrapper tag
+around a main
+section on another
+webpage when it
+wasn’t supposed to","Seeing a familiar
+webpage layout made
+me apply a strong
+rule that had been
+used on the prior
+page, which resulted
+in poor formatting.",Double-capture slips
+154,2/10/2025,"Applied a flex format
+to a child class rather
+than the parent
+because with floats
+that would have
+worked.","Context was like
+previously used float
+instance, resulting in
+my neglect of the
+novel circumstance
+with flex.",First exception
+155,2/13/2025,"Overloaded a buffer
+by not specifying a
+large enough size by
+copying an existing
+piece of code that
+made a buffer for a
+smaller input","When creating a new
+buffer, a small size
+was applied from a
+previously known
+working function,
+which caused the new
+one to overflow since
+it had larger input.",Rigidity
+156,2/15/2025,"Wrong
+variable
+used due
+to
+VScode
+autofill
+choosing
+similarly
+-named
+variable","Relying
+on
+autofill
+backfire
+d into
+wrong
+variable
+name",Perceptual Confusions
+157,2/15/2025,"Missing
+semicolo
+n","Forgot to
+add a
+semicolo
+n",Rule encoding deficiencies
+158,2/15/2025,"Wrong
+variable
+used due
+to
+ignorance of
+establish
+ed global
+variable
+in the
+codebase","Ignoranc
+e of
+global
+variable
+let to wrong
+variable
+being
+used",Lack of knowledge
+159,2/16/2025,"Bad
+print
+attempt
+for data
+type","Printing
+data as
+wrong
+data type
+caused
+an error",Rule encoding deficiencies
+160,2/16/2025,"Incorrect naming
+of log file",Ignorance of correct naming structure caused an error,Lack of knowledge
+161,2/16/2025,Incorrect naming of script file,Ignorance of correct naming structure caused an error,Lack of knowledge
+162,2/17/2025,"Wrong
+variable
+used due
+to
+ignoranc
+e of
+establish
+ed
+private
+variable
+in the
+header
+file","Ignorance of
+codebase
+lead to
+wrong
+variable
+being
+used",Forgetting something has been done 
+163,2/17/2025,"Wrong
+variable
+used due
+to
+incorrect
+assignme
+nt","Incorrect
+instructions lead
+to
+incorrect
+coding
+attempt",Rule encoding deficiencies
+164,2/17/2025,"Wrong
+function
+argumen
+t due to
+bad
+impleme
+ntation
+of
+correct
+instructi
+ons","Ignorance of
+codebase
+lead to
+wrong
+variable
+being
+used",Rule encoding deficiencies
+165,2/17/2025,"Wrong
+command
+accident ally used
+in bash
+script","Ignoranc
+e of
+correct
+bash
+comman
+ds lead
+to wrong
+comman
+ds being
+used",Lack of knowledge
+166,2/18/2025,"In my research group, I not only updated code in the codebase, but also
+introduced new c sharp files that would work with the existing Factory State Machine
+logic, and also with a newly introduced Goal Oriented Action Planning model. When I
+finished and attempted to load a test scene in Unity, some of my updated or new files
+were not compiling.","My sub-goals of ensuring every related script
+functioned with the updated code were not all completed.",Post-Completion Error
+167,2/10/2025,"For a web development project, I had an email field that should have shown
+the text: “Enter your email” before interacting with it, but was actually showing blank.","I had attempted to fix the issue before
+encountering it, as my peers notified the class discord that a starter file had the wrong
+color text. I mistakenly changed the wrong starter file and made a different block of text
+white instead of fixing the original issue because I was confused.",Perceptual Confusions
+168,2/12/2025,"For a web development project, I thought tailwind css was being installed
+wrong, as certain elements on my page that were supposed to be styled using it were
+appearing very strangely.","Tailwind Css was being installed fine, but I just
+had some minor inconsistencies in a couple css files. My initial lack of knowledge for the
+root cause of the problem caused me to go down a rabbit hole.",Lack of knowledge
+169,3/15/2024,"In a text adventure game I coded for one of my honors classes, I thought I
+had accounted for every version of user input for a certain decision but disregarded a
+spacing issue. This resulted in the game being stopped early.","I was so sure that my implementation was correct
+on the first go around.",Confirmation Bias
+170,2/5/2025,"When attempting to use WSL on my machine, I was receiving an error code
+preventing Ubuntu from launching. I tried a million different troubleshooting techniques
+suggested online, and ended up getting the main error resolved, but a new one popped up
+right after. My file system was corrupted.","Couldn’t classify causes because of lack of information. I had
+been regularly interacting with my WSL every day and it just randomly seemed to get
+corrupted.",N/A
+171,2/20/2025,"When attempting to use a license key on turbo tax, I received an error code
+because I needed to be logged in on the account associated with it.","I went over everything in my head before trying the
+license key, and determined that I was good to go. Once I saw the error, my mind almost
+immediately went to me not being logged in with the correct account.",Biased Review
+172,2/16/2025,"For a web development project, I placed my api key in the wrong location.","I was confused and mistakenly grabbed the
+wrong key for where the api key should have gone.",Perceptual Confusions
+173,2/19/2025,"When setting up a permissions management system on a local MC server
+that I created, I had the wrong preference selected for modifying groups locally","I had set up many permissions config
+files for previous servers and assumed the new plugin I chose would behave the same
+way as others I had used.",Applying “strong-but-now-wrong” rule
+174,1/14/2024,"When pulling logs from my work tablet, I needed to cross-check Mixpanel
+to ensure that the correct names of events were being triggered on Mixpanel as well asthe correct number. I saw no events on Mixpanel after triggering the events on the tablet
+and pulling the logs.","I was interrupted by having to deal
+with an incoming zoom call during the process, which caused me to forget to connect to
+the correct network on the tablet","Omissions
+following
+Interruption"
+175,1/25/2025,"For a web development project, I was following a local database(MongoDB)
+setup tutorial from a groupmate for our project. When setting up the .env file inside the
+server directory, the expected Port was not working.","As this was my first time setting up MongoDB
+on my PC, I was confused and swapped two ports on the instructions in my head. Once I
+switched the field to the correct port everything worked fine.",Perceptual Confusions
+176,N/A,Entered step instead of stepi,"During my “bomb” assignment for CSCI 247, I had to be careful not to blow up my bomb by
+going too far in the instructions while using the debugger. To do this, I used the command
+“stepi,” which allowed me to go forward one step in assembly. This should not be confused with
+“step”, which goes forward one C instruction, which is a lot further than I wanted to test.
+Unfortunately, since they look similar, I experienced perceptual confusion and entered step as a
+command, which ended up blowing up my bomb.",Perceptual Confusions
+177,N/A,"Used space in terminal which enters last command out of habit, crashing my program","During that same bomb assignment, I figured out that when simply pressing enter the previous
+command is used, which is quite efficient when doing the same step over and over again. After
+using this a lot, I went back to pen and paper, devising a strategy before trying again. When
+trying again, I entered “continue” in gdb to go to my breakpoint, and although I should have
+typed “stepi” to go to the next step and then continued to use it via the enter key, I immediately
+pressed enter out of habit, intending to go forward one step but instead using continue which,
+since I had not more breakpoints set, blew up the bomb. This is an example of
+strong-but-now-wrong: I was so used to enter going forward one line of code that I expected it to
+do the same even when the previous command was not stepi.",Applying “strong-but-now-wrong” rule
+178,N/A,Did not fully follow all cases when reimplementing a function in a bugged program,"While fixing a bug in a program given to me in a lab, I noticed an incorrect usage of unsigned
+integers which created overflows. To fix this, I deleted the entire implementation, creating a
+while loop which would prevent overflow. However, I failed to realize that the initial for loop I
+deleted on its first cycle would print differently than on the other cycles, and this caused my
+program to give unexpected results, failing the tests. I believe this to be an example of a
+post-completion error, since I first needed to fix the overflow (step A), and then reimplement the
+special case handling on the first iteration (step B), and since step B is not necessary to
+completing step A and immediately follows it, I forgot to do it.",Post-Completion Error
+179,N/A,Error while working with hexadecimal values,"While working on an assignment using hexadecimal values, I was meant to choose the max
+value. While working this out in my head, I first chose by the tens digits, and then when I saw a
+9 in the one's digit I assumed that the number would be the greatest, regardless of what any of
+the other numbers had in the one's digit, since this would be the case if I were working in
+standard decimal format. This was me committing a strong-but-now-wrong error since in
+hexadecimal 9 is not the greatest value, F is. It turns out, there was a value with an A in the
+ones digit, which is greater than 9 meaning I was incorrect, and this caused me quite a bit of
+confusion when my code disagreed with me.",Applying “strong-but-now-wrong” rule
+180,N/A,Printed “-” rather than spaces in Magic Trees problem,"In the magic trees problem assigned to us in class, I did not replace the “-” characters with
+spaces, as required in the specification. This is a post-completion error, as the instruction to
+replace those characters was the last line in the spec, and was not a necessary condition to
+complete the task before it, which was more important to the actual functionality of the program.
+Most likely, my brain got tired of reading and I skipped to looking at the example diagrams, not
+realizing I was missing a step.",Post-Completion Error
+181,N/A,Did not sort correctly in LeetCode problem,"While solving a LeetCode problem where I was asked to sort items by the frequency of said
+items. Then, the instructions said that if multiple values had the same frequency, that I should
+sort them by decreasing order. However, since this was the last step, and was not necessary to
+the task before, I forgot to do so, committing a post-completion error, and was surprised when
+my result was not accepted.",Post-Completion Error
+182,N/A,Used undefined data type in C,"While coding in C, I used the data type “bool,” and was surprised when I got an error message
+that the type “bool” was undefined. After looking it up, I found out that earlier version of C did not
+have that data type, and that I could either use an integer or define it at the top of the file. This
+error happened because I was told that booleans are in C and use the name bool, and therefore
+updated my C schema, not realizing that this was only true for certain versions of C, and that
+this was not true in the version I was using. This leads me to believe the cause of my error was
+a rule-encoding deficiency.",Rule encoding deficiencies
+183,N/A,Forgot to compile file after making changes,"While working on an assignment, I had to frequently make updates to a file, which would
+thereafter have to be compiled. At one point, after making a change, I forgot to compile, which
+meant I was not seeing my changes incorporated, which took me a minute to understand while
+debugging. This is an example of a post-completion error, as it was the last step in the
+sequence required to edit the file, and it was not required to complete the main task of editing
+the file, which is what my brain was focused on, taking up the majority of my attention.",Post-Completion Error
+184,N/A,Personal project briefly broke due to issues with HTML tags,"A user of one of my personal projects notified me that it was no longer working. Upon closer
+inspection, I discovered it had broken across all platforms. The issue was rooted in how I was
+identifying elements to edit on webpages: I grabbed them by their HTML tags, hoping that they
+would not be changed during updates to the website. But evidently they did, and it is an
+example of an error causing a fault that did not immediately lead to a failure. The error itself is in
+my opinion an example of a lack of knowledge: I did not know how permanent the HTML tags
+were, and if they would be changed or not by updates, as I have no knowledge of the eternal
+workings of the websites I am creating extensions for in my personal project.",Lack of knowledge
+185,N/A,Distracted by working on too many separate functions,"While doing a class assignment in a brand new topic, I started trying multiple things to test out
+the functionality of what I was learning (buffer overflow attacks). When I came back I started toflesh out one of these things and was surprised when I was getting unexpected outputs. I
+eventually realized that my unfinished framework from earlier was breaking things down the line,
+as it was never meant to be finalized. This is an example of an omission following an
+interruption: the time I took away from the computer caused me to forget that there were other
+aspects of the attack that were unfinished, and so I omitted the lines that would have caused the
+program to run correctly.","Omissions
+following
+Interruption"
+186,N/A,"The first example is an error I made on an assignment where I was to compare a list of
+runtimes and sort them in order from least (fastest) to greatest (slowest). The submission was to
+be a pdf constructed using LaTex. I mistakenly used greater than or equal to symbol ( ? ) instead
+of the correct greater than symbol ( < ).","I believe this occurred during the coding and review
+stage because I used the wrong symbol when writing the LaTex code and failed to recognize my
+mistake when reviewing my answers in the pdf output and at the skill-based performance level. I
+am highly confident that this error was the result of Perceptual confusion. ? looks very similar to
+< so used it instead.",Perceptual Confusions
+187,N/A,"The second example is an error I made on an assignment where I was to create a function
+that takes in an array of items in a set and an array of relations in a set and determines if the set is
+transitive. Return true if it is false if it’s not. The assignment description gave a few examples of
+correct and incorrect inputs but didn’t show any examples of edge cases. I forgot to include the
+null set edge case leading to the function returning false instead of true.","I believe this occurred
+during the coding stage and at the knowledge-based performance level. I am highly confident
+that this error was the result of Bias Review. The instructions only contained examples of true
+and false sets so I focused on getting those to work. Once they returned the proper values for all
+of the sets I assumed I had successfully covered all the cases which led to me skipping over the
+null set edge case.",Biased Review
+188,N/A,"Another example is I was working on a homework assignment with multiple problems.
+The instructions stated to solve the following problem, how we were to format our answers,
+when the assignments was due, and at the end to write on the top of our paper if we worked
+alone or with a team. I forgot to put that I worked alone on the top and as a result lost a
+significant amount of points on the assignment.","I believe this occurred at the requirement level as
+I skipped a requirement and at the review level as I was focused on reviewing the answers to thequestions. I am highly confident this is a Post-Completion Error. Writing if I worked alone was
+the last step and it was smaller and nonessential to the main task of completing the homework.",Post-Completion Error
+189,N/A,"Another error I personally made is on a quiz the question was “to write down a
+recurrence that computes a^n using divide and conquer. For example, if we are trying to compute
+28, our algorithm should first compute b=24 and then return b*b. Be sure to include cases for
+both odd and even n.” I incremented n by -2 each recursion instead of n/2.","I believe this occurred
+at the coding stage as it was when I was actually writing the code that this occurred. This quiz
+was timed so I did not have time to review my code. I have a medium level of confidence this
+occurred at the knowledge-based level and is a Selectivity error. I missed the logically important
+information that I was supposed to use divide and conquer because I was focused on including
+both odd and even cases.",Selectivity
+190,N/A,"The final error I personally made that I can remember for purposes of this project
+occurred when I was trying to give a runtime analysis of a program similar to binary search. I
+recognized it was similar to binary search and assumed the runtime was O(n log n), the runtimeof binary search. I focused on proving the runtime was O(n log n) instead of computing it from
+scratch which resulted in me getting the wrong runtime.","I believe this occurred at the design
+stage as I assumed the solution instead of working to find the best solution. I am highly confident
+that this occurred at the knowledge-based level and is Confirmation Bias. I was trying to confirm
+the solution and only focusing on the psychologically stagnant information that supported that
+instead of the logically important information I needed to calculate the correct runtime.",Confirmation Bias
+191,N/A,"The first example is from a Student who was modifying a Radix sort algorithm to sort
+negative numbers as well as positive numbers. The student updated all functions in Radix sort
+but it still wasn’t working correctly. This was because they had forgotten to add a way to separate
+the negative numbers from the positive numbers so the array of negative numbers was empty and
+all values were in the positive numbers array.","This occurred at the coding stage and I believe at
+the skill-based level. I am highly confident this is a Post-Completion Error as it was the smaller
+final step in the larger task of updating the Radix sort algorithm.",Post-Completion Error
+192,N/A,"The second example is from a Student who was working on the 247 pointer lab. The first
+portion of this lab is following step by step instructions provided by the teacher. This student was
+talking to a friend who was working on the same project and as a result skipped over a step
+causing the code to fail to compile.","This occurred at the coding stage and at the skill-based level.
+I am highly confident this is an Omission Following Interruption as the student picked up the
+instructions a step ahead after talking to their friend (interruption). I think this could also be
+Perceptual Confusion as their friend was working on the same project and a few steps ahead so
+it’s possible they were looking at their friend's code and mistook it for theirs causing them to
+believe they were further along than they were.",Perceptual Confusions
+193,N/A,"Another example is a Student was working on a Python truth table of XOR function in
+141. The User inputs two true or false values in the form T or F and a boolean value that is the
+result of XORing the inputs is returned. The Student used T or F instead of true or false forBoolean values causing a compile error as they were returning a char when the program expected
+a boolean.","This occurred at the coding stage and the knowledge-based and skill-based levels.
+This could be a Lack of Knowledge Error as the student hadn’t previously used boolean types so
+didn’t know to use the keywords “true” and “false”. This could also be Perceptual Confusion as
+the input is a char T or F which has the same function in this project as true or false resulting in
+the student using the wrong one.",Lack of knowledge
+194,N/A,"A 145 assignment asked students to create an array of integers with length size. This
+resulted in approximately 3-4 students students attempting to create new array in the way new
+instances of an object are created after learning about objects the previous week. They wrote
+Array a= new Array(int); instead of: int [] a = new int [size];.","This occurred at the coding stage
+and at the rule-based level. I believe with medium confidence this is a “Strong-but-now-wrong”
+Rule. Students were familiar with the creation of objects and had successfully used it multiple
+times in the previous week so when faced with the new rule of creating arrays they mistakenly
+used the familiar rule of creating objects.",Applying “strong-but-now-wrong” rule
+195,N/A,"approximately 10-12
+students used getters and setters instead of constructors like directed.","This occurred at the design
+and coding stage as the initial design lacked constructors and they wrote code for just getters and
+setters instead. I believe with medium confidence this occurs at the rule-based level and is a
+“Strong-but-now-wrong” Rule. The stronger rule of creating getters and setters to access private
+variables was used instead of the newer rule of usinging constructors and setting the private
+variables with input from the constructor arguments.",Applying “strong-but-now-wrong” rule
+196,N/A,"The second error was using inheritance
+instead of encapsulation to rewrite the class; around 20-25 students did this (possibly more I
+should’ve counted exactly but it was a lot).","I believe this occurred at the requirements and design
+stage because the code varied but the key concept stayed the same. I am highly confident this is
+at the knowledge-based level and a Lack of Knowledge of what encapsulation is. It also could be
+Selectivity and the students focused on the phycologically stagnant object-oriented part instead
+of the logically important encapsulation part.",Lack of knowledge
+197,N/A,A project to create a program to perform bisection on a function must produce a table where results have 7 decimal places. My program would print with anywhere from 0 - 8,"I was not able to get the program to print the correct number of decimals, I solved the issue by changing the values to a string. Then using a method to specify a length of a string to get the desired decimal places",Rule encoding deficiencies
+198,N/A,In my first time using matlab working with many polynomials many exponents are required. Using “^” is usually all that is required for this but matlab needs the syntax “.^”,I used my experience from previous coding languages and applied to matlab where the rule is different,Applying “strong-but-now-wrong” rule
+199,N/A,Deadwood is board game that was being made into a videogame version for assignment. This error was the player icons were obscuring the information of the location they were,While not technically required for the game to function the clutter in the ui caused by this made the game less fun to play. Solved by shrinking the player icon when they are in a place with information that could be covered,Post-Completion Error
+200,N/A,Related to 7 decimal places error. Data type for results was double when it matlab if you only need 7 decimal places the proper data type to use is single,This being my first project in matlab I was not familiar with the nuances of the variable types in language,Lack of knowledge
+201,N/A,"In a program meant to perform bisection on a given function, the function I entered has a negative where there should have been a positive","I mistakenly turned a positive integer into a negative one, unsure if it was a typo or a lapse. I did not catch error because the bisection was performed and the results were correct, I did not think to make sure the input was correct too .",Perceptual Confusions
+202,N/A,for a newton's method program in matlab natural log is needed to calculate error. I had assumed ln would be syntax to use but matlab takes log as the natural log so there is no need for ln,Used the common syntax for math inputs not knowing that matlab has a different syntax.,Applying “strong-but-now-wrong” rule
+203,N/A,"while loop in my newton's method program ran up to 1 times less than I had wanted. The goal is to produce an answer under a certain point such as 
+(10)^-8. The while loop was set to > meaning the loop would stop when the answer got close enough or was equal to point, when it must be less than",I was not considering the possibility of both sides being equal or close enough that the data type would see them as the same. (These are very small decimals with lots of zeros),Difficulties with exponential developments
+204,N/A,"Bisection method in matlab should check the input to make sure that it is valid. If not it ends the program. I created this part first, made sure it worked then created the rest.","After making the rest of the program I only caught the error after putting the wrong input in. The program would give me the error message then attempt to perform the function anyway. I added a return statement to create the break
+",Post-Completion Error
+205,N/A,"I needed to make a graph for a specific function and mark the a specific point on the graphs. Matlab was showing a series of points instead, placing multiple points on the y-axis in a line on the x-point I selected ",I tried to input the points as part of the graph but because the graph is dependent on input values it would put the point on the graph for multiple variations of the line. I solved this be creating a separate individual point and placing it onto the graph.,Problems with complexity
